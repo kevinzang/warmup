@@ -21,30 +21,30 @@ class TestAddUser(testLib.RestTestCase):
         self.assertDictEqual(expected, respData)
 
     def testUsernameEmpty(self):
-        respData = self.makeRequest("/users/add", method="POST", data={'user':"", 'password':'password'})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_USERNAME)
+        respData = self.makeRequest("/users/add", method="POST", data = { 'user' : '', 'password' : 'password'} )
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_USERNAME)
 
     def testUsernameTooLong(self):
         user1 = "a"*(TestAddUser.MAX_USERNAME_LENGTH+1)
         respData = self.makeRequest("/users/add", method="POST", data={'user':user1, 'password':'password'})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_USERNAME)
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_USERNAME)
 
-    def passwordBlankOK(self):
+    def testPasswordBlankOK(self):
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':""})
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
 
-    def passwordTooLong(self):
+    def testPasswordTooLong(self):
         password = "a"*(TestAddUser.MAX_PASSWORD_LENGTH+1)
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':password})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_PASSWORD)
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_PASSWORD)
 
-    def userRegistered(self):
+    def testUserRegistered(self):
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':'password'})
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':'password'})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_USER_EXISTS)
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_USER_EXISTS)
 
-    def userCaseSensitive(self):
+    def testUserCaseSensitive(self):
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':'password'})
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
         respData = self.makeRequest("/users/add", method="POST", data={'user':'User1', 'password':'password'})
@@ -61,23 +61,23 @@ class TestLoginUser(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def passwordCaseSensitive(self):
+    def testPasswordCaseSensitive(self):
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':'password'})
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
         respData = self.makeRequest("/users/login", method="POST", data={'user':'user1', 'password':'Password'})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_CREDENTIALS)
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_CREDENTIALS)
 
-    def newUserReject(self):
+    def testNewUserReject(self):
         respData = self.makeRequest("/users/login", method="POST", data={'user':'user1', 'password':'password'})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_CREDENTIALS)
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_CREDENTIALS)
         
-    def incorrectPassword(self):
+    def testIncorrectPassword(self):
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':'password'})
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
         respData = self.makeRequest("/users/login", method="POST", data={'user':'user1', 'password':'hax0r'})
-        self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_CREDENTIALS)
+        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_CREDENTIALS)
 
-    def incrementCount(self):
+    def testIncrementCount(self):
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':'password'})
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
         respData = self.makeRequest("/users/login", method="POST", data={'user':'user1', 'password':'password'})

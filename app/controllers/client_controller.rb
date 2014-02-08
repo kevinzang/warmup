@@ -119,14 +119,19 @@ class ClientController < ApplicationController
 				else
 					rval = UsersModel.add(username, password)
 				end
-                resp = {}
+                @resp = {}
 				if rval < 0
-					resp["errCode"] = rval
+					@resp[:errCode] = rval
 				else
-                    resp["errCode"] = UsersModel::SUCCESS
-                    resp["count"] = rval
+                    @resp[:errCode] = UsersModel::SUCCESS
+                    @resp[:count] = rval
 				end
-				return render(:json=>resp, status:200)
+                temp = ActiveSupport::JSON.encode(@resp)
+                f = ActiveSupport::JSON.decode(temp)
+                for key in f.keys
+                    puts "("+key+", " + f[key].to_s + ")"
+                end
+				return render(:json=>ActiveSupport::JSON.encode(@resp), status:200)
 			else
 				return render(:json=>{}, status:500)
 			end
