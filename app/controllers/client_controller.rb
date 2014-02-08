@@ -93,6 +93,10 @@ class UsersModel
     	UserData.delete_all()
     end
 
+    def self.TESTAPI_resetFixture()
+        UsersModel._reset()
+    end
+
     # def TESTAPI_resetFixture(self):
     #     """
     #     This function is used only for testing, and should clear the database of all rows.
@@ -140,4 +144,59 @@ class ClientController < ApplicationController
 			return render(:json=>{}, status:404)
 		end
 	end
+
+    def test
+        @request = request()
+        type = @request.headers["Content-Type"].split(";")
+        if !@request.post?() || !(type.include?("application/json"))
+            return render(:json=>{}, status:500)
+        end
+        if @request.fullpath == "/TESTAPI/resetFixture"
+            UsersModel.TESTAPI_resetFixture()
+            return render(:json=>{}, status:200)
+        elsif @request.fullpath == "/TESTAPI/unitTests"
+            path = File.expand_path("../../../test/models", __FILE__)
+            command = "rake test "+path+"/user_data_test.rb"+
+            " >> "+path+"/test_output.txt"
+            system(command)
+            begin
+                file = File.new(path+"/test_output.txt", "r")
+                # readlines returns an array and delimits by "\n"
+                contents = file.readlines()
+                puts contents.join()
+                file.close()
+                system("rm -rf "+path+"/test_output.txt")
+                result = []
+                if contents.length() > 0
+                    # results are in the last line
+                    line = contents[contents.length()-1]
+                    delimited = ""
+                    line.each_char{|letter|
+                        if letter == ","
+                            delimited += " "
+                        else
+                            delimited += letter
+                        end
+                    }
+                    result = delimited.split(" ")
+                end
+                if result.include?("tests") &&
+                    result.include?("failures")
+                    numTests = result[result.index("tests")-1].to_i()
+                    numFails = result[result.index("failures")-1].to_i()
+                    resp = {"nrFailed"=>numFails,
+                        "output"=>contents.join(), "totalTests"=>numTests}
+                    return render(:json=>resp, status:200)
+                else
+                    resp = {"nrFailed"=>0, "output"=>"",
+                    "totalTests"=>0}
+                    return render(:json=>resp, status:200)
+                end
+            rescue => error
+                resp = {"nrFailed"=>0, "output"=>"",
+                    "totalTests"=>0}
+                return render(:json=>resp, status:200)
+            end
+        end
+    end
 end
