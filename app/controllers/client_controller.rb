@@ -96,16 +96,6 @@ class UsersModel
     def self.TESTAPI_resetFixture()
         UsersModel._reset()
     end
-
-    # def TESTAPI_resetFixture(self):
-    #     """
-    #     This function is used only for testing, and should clear the database of all rows.
-
-    #     It should always return SUCCESS (1)
-
-    #     Used for testing
-    #     """
-    #     self._reset ()
 end
 
 class ClientController < ApplicationController
@@ -129,13 +119,13 @@ class ClientController < ApplicationController
 				else
 					rval = UsersModel.add(username, password)
 				end
+                resp = {}
 				if rval < 0
-					resp = {"errCode"=>rval}
+					resp["errCode"] = rval
 				else
-					resp = {"errCode"=>UsersModel::SUCCESS,
-						"count"=>rval}
+                    resp["errCode"] = UsersModel::SUCCESS
+                    resp["count"] = rval
 				end
-				puts "response is #{rval}"
 				return render(:json=>resp, status:200)
 			else
 				return render(:json=>{}, status:500)

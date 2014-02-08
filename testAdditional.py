@@ -8,6 +8,9 @@ import testLib
 
 class TestAddUser(testLib.RestTestCase):
     """Test adding users"""
+    MAX_USERNAME_LENGTH = 128
+    MAX_PASSWORD_LENGTH = 128
+
     def assertResponse(self, respData, count = 1, errCode = testLib.RestTestCase.SUCCESS):
         """
         Check that the response data dictionary matches the expected values
@@ -22,7 +25,7 @@ class TestAddUser(testLib.RestTestCase):
         self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_USERNAME)
 
     def testUsernameTooLong(self):
-        user1 = "a"*(testLib.RestTestCase.MAX_USERNAME_LENGTH+1)
+        user1 = "a"*(TestAddUser.MAX_USERNAME_LENGTH+1)
         respData = self.makeRequest("/users/add", method="POST", data={'user':user1, 'password':'password'})
         self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_USERNAME)
 
@@ -31,7 +34,7 @@ class TestAddUser(testLib.RestTestCase):
         self.assertResponse(respData, 1, testLib.RestTestCase.SUCCESS)
 
     def passwordTooLong(self):
-        password = "a"*(testLib.RestTestCase.MAX_PASSWORD_LENGTH+1)
+        password = "a"*(TestAddUser.MAX_PASSWORD_LENGTH+1)
         respData = self.makeRequest("/users/add", method="POST", data={'user':'user1', 'password':password})
         self.assertResponse(respData, 1, testLib.RestTestCase.ERR_BAD_PASSWORD)
 
