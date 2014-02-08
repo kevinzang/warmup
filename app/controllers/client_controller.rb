@@ -156,7 +156,7 @@ class ClientController < ApplicationController
             return render(:json=>{}, status:200)
         elsif @request.fullpath == "/TESTAPI/unitTests"
             path = File.expand_path("../../../test/models", __FILE__)
-            command = "rake test "+path+"/user_data_test.rb"+
+            command = "heroku run rake test "+path+"/user_data_test.rb"+
             " >> "+path+"/test_output.txt"
             system(command)
             begin
