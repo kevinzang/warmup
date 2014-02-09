@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "../../app/models/user_data.rb"
+require File.expand_path("../../app/models/user_data.rb", __FILE__)
 puts "Hello"
 u = UserData.new("Kevin Zhang")
 u.save()
