@@ -151,8 +151,7 @@ class ClientController < ApplicationController
                 "--format documentation --out "+file.path)
             puts "COMMAND DONE, result was #{result}"
             begin
-                file.open
-                puts "FOUND THE FILE"
+                puts "FOUND THE FILE, it has length #{file.length}"
                 contents = file.readlines()
                 puts contents.join()
                 file.close
