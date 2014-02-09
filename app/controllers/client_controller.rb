@@ -149,9 +149,10 @@ class ClientController < ApplicationController
             puts path
             system("heroku run rspec #{Rails.root}/spec/requests/clients_spec.rb "+
                 "--format documentation --out "+path)
-            puts "COMMAND DONE"
+            puts "COMMAND DONE, the path was #{Rails.root}"
             begin
                 file = File.new(path, "r")
+                puts "FOUND THE FILE"
                 contents = file.readlines()
                 puts contents.join()
             rescue => err
