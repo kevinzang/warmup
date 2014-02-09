@@ -1,0 +1,20 @@
+
+Clients
+  add user
+    should not have a password that is too long
+    should not add an already registered user
+    should have usernames that are case-sensitive
+    can have a blank password
+    should not have a username that is too long
+    should not have a blank username
+  login user
+    should have passwords that are case-sensitive
+    should not login a non-registered user
+    should not login if incorrect password
+    should increment count on correct username/password
+
+Finished in 0.05894 seconds
+10 examples, 0 failures
+
+Randomized with seed 41694
+

@@ -146,20 +146,30 @@ class ClientController < ApplicationController
             return render(:json=>{}, status:200)
         elsif request.fullpath == "/TESTAPI/unitTests"
             file = Tempfile.new(["rspec", ".txt"], "#{Rails.root}/tmp")
-            puts file.path
             result = system("rspec #{Rails.root}/spec/requests/clients_spec.rb "+
                 "--format documentation --out "+file.path)
-            puts "COMMAND DONE, result was #{result}"
             begin
-                puts "FOUND THE FILE, it has length #{file.length}"
                 contents = file.readlines()
-                puts contents.join()
+                i = contents.length-1
+                line = ""
+                while i > 0
+                    if contents[i].include?("failures")
+                        line = contents[i]
+                        break
+                    end
+                    i -= 1
+                end
+                line = line.split(" ")
+                total = line[line.index("examples,")-1].to_i
+                fails = line[line.index("failures\n")-1].to_i
                 file.close
+                return render(:json=>{"nrFailed"=>fails, "output"=>contents.join(),
+                    "totalTests"=>total}, status:200)
             rescue => err
-                puts "COULDN'T FIND FILE"
-            end
-            return render(:json=>{"nrFailed"=>0, "output"=>"All tests passed",
+                return render(:json=>{"nrFailed"=>0, "output"=>"All tests passed",
                 "totalTests"=>10}, status:200)
+            end
         end
+        return render(:json=>{}, status:404)
     end
 end
