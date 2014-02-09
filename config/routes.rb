@@ -1,5 +1,5 @@
 Warmup::Application.routes.draw do
-  get '/' => 'client#index'
+  get '/users' => 'client#index'
   post '/users/add' => 'client#post'
   post '/users/login' => 'client#post'
   post '/TESTAPI/resetFixture' => 'client#test'
