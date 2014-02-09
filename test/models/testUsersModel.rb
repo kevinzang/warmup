@@ -1,4 +1,4 @@
-require File.expand_path("../../../app/controllers/UsersModel", __FILE__)
+require File.expand_path("../../../app/controllers/client_controller", __FILE__)
 require "test/unit"
 
 class TestUsersModel < Test::Unit::TestCase
