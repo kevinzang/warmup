@@ -145,7 +145,8 @@ class ClientController < ApplicationController
             UsersModel.TESTAPI_resetFixture()
             return render(:json=>{}, status:200)
         elsif request.fullpath == "/TESTAPI/unitTests"
-            path = "../../../tmp/rspec.txt"
+            path = File.expand_path("../../../tmp/rspec.txt", __FILE__)
+            puts path
             system("heroku run rspec spec/requests/clients_spec.rb "+
                 "--format documentation --out "+path)
             puts "COMMAND DONE"
