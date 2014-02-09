@@ -1,0 +1,8 @@
+Running `bundle exec rspec spec/requests/` attached to terminal... up, run.8365
+[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m
+
+Finished in 0.26673 seconds
+[32m10 examples, 0 failures[0m
+
+Randomized with seed 52251
+

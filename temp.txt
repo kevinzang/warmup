@@ -1,2 +1,0 @@
-Running `rake ./test/models/testUsersModel.rb` attached to terminal... up, run.8701
-Running `rake ./test/models/testUsersModel.rb` attached to terminal... up, run.6971
