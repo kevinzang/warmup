@@ -147,9 +147,9 @@ class ClientController < ApplicationController
         elsif request.fullpath == "/TESTAPI/unitTests"
             file = Tempfile.new(["rspec", ".txt"], "#{Rails.root}/tmp")
             puts file.path
-            system("heroku run rspec #{Rails.root}/spec/requests/clients_spec.rb "+
+            result = system("rspec #{Rails.root}/spec/requests/clients_spec.rb "+
                 "--format documentation --out "+file.path)
-            puts "COMMAND DONE, the path was #{file.path}"
+            puts "COMMAND DONE, result was #{result}"
             begin
                 file.open
                 puts "FOUND THE FILE"
