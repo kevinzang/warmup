@@ -161,10 +161,17 @@ class ClientController < ApplicationController
                     end
                     i -= 1
                 end
-                puts line
-                line = line.split(" ")
+                fixline = ""
+                line.each_char {|c|
+                    if c == '\n'
+                        fixline += " "
+                    else
+                        fixline += c
+                    end
+                }
+                line = fixline.split(" ")
                 total = line[line.index("examples,")-1].to_i
-                fails = line[line.index("failures\n")-1].to_i
+                fails = line[line.index("failures")-1].to_i
                 file.close
                 return render(:json=>{"nrFailed"=>fails, "output"=>contents.join(),
                     "totalTests"=>total}, status:200)
