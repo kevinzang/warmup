@@ -2,6 +2,7 @@ require File.expand_path("../../../app/controllers/client_controller", __FILE__)
 require "test/unit"
 
 class TestUsersModel < Test::Unit::TestCase
+	puts "not here"
 	def setup()
 		UsersModel.TESTAPI_resetFixture()
 	end
@@ -88,3 +89,4 @@ class TestUsersModel < Test::Unit::TestCase
 			"user 1 logged in")
 	end
 end
+puts "hello"
