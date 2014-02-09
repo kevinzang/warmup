@@ -2,8 +2,11 @@ require 'spec_helper'
 require File.expand_path("../../../app/controllers/client_controller", __FILE__)
 
 describe "Clients" do
-	before {
-		UserData.delete_all
+	before(:each) {
+		UsersModel.TESTAPI_resetFixture()
+	}
+	after(:each) {
+		UsersModel.TESTAPI_resetFixture()
 	}
     describe "add user" do
         it "should not have a blank username" do
