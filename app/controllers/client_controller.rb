@@ -161,7 +161,7 @@ class ClientController < ApplicationController
                     end
                     i -= 1
                 end
-                puts "AFTER WHILE"
+                puts line
                 line = line.split(" ")
                 total = line[line.index("examples,")-1].to_i
                 fails = line[line.index("failures\n")-1].to_i
