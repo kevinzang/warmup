@@ -147,7 +147,7 @@ class ClientController < ApplicationController
         elsif request.fullpath == "/TESTAPI/unitTests"
             path = "../../../tmp/rspec.txt"
             system("heroku run rspec spec/requests/clients_spec.rb "+
-                "--format documentation --out "+path
+                "--format documentation --out "+path)
             puts "COMMAND DONE"
             begin
                 file = File.new(path, "r")
