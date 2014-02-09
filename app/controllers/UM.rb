@@ -1,4 +1,4 @@
-class UsersModel
+class UM
 	## The success return code
     SUCCESS               =   1
 
@@ -22,7 +22,7 @@ class UsersModel
     MAX_PASSWORD_LENGTH = 128
     
     def initialize()
-        UsersModel._reset()
+        UM._reset()
 	end
 
     def self.login(user, password)
@@ -74,11 +74,11 @@ class UsersModel
             return ERR_USER_EXISTS
         end
 
-        if !UsersModel.valid_username(user)
+        if !UM.valid_username(user)
             return ERR_BAD_USERNAME
         end
 
-        if !UsersModel.valid_password(password)
+        if !UM.valid_password(password)
             return ERR_BAD_PASSWORD
         end
 
@@ -94,59 +94,6 @@ class UsersModel
     end
 
     def self.TESTAPI_resetFixture()
-        UsersModel._reset()
-    end
-end
-
-class ClientController < ApplicationController
-	def index
-	end
-
-	def post
-        # ApplicationController has request and params fields
-		type = request.headers["Content-Type"].split(";")
-		if !request.post?() || !(type.include?("application/json"))
-			return render(:json=>{}, status:500)
-		end
-		if request.fullpath == "/users/login" ||
-			request.fullpath == "/users/add"
-			if params.keys.include?("user") &&
-				params.keys.include?("password")
-				username = params["user"]
-				password = params["password"]
-				if request.path == "/users/login"
-					rval = UsersModel.login(username, password)
-				else
-					rval = UsersModel.add(username, password)
-				end
-                resp = {}
-				if rval < 0
-					resp["errCode"] = rval
-				else
-                    resp["errCode"] = UsersModel::SUCCESS
-                    resp["count"] = rval
-				end
-				#return render(:json=>ActiveSupport::JSON.encode(@resp), status:200)
-                return render(:json=>resp, status:200)
-			else
-				return render(:json=>{}, status:500)
-			end
-		else
-			return render(:json=>{}, status:404)
-		end
-	end
-
-    def test
-        type = request.headers["Content-Type"].split(";")
-        if !(request.post?) || !(type.include?("application/json"))
-            return render(:json=>{}, status:500)
-        end
-        if request.fullpath == "/TESTAPI/resetFixture"
-            UsersModel.TESTAPI_resetFixture()
-            return render(:json=>{}, status:200)
-        elsif request.fullpath == "/TESTAPI/unitTests"
-            return render(:json=>{"nrFailed"=>0, "output"=>"All tests passed",
-                "totalTests"=>10}, status:200)
-        end
+        UM._reset()
     end
 end
