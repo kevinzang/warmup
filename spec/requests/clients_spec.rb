@@ -2,9 +2,9 @@ require 'spec_helper'
 require File.expand_path("../../../app/controllers/client_controller", __FILE__)
 
 describe "Clients" do
-	after(:each) do
+	before {
 		UserData.delete_all
-	end
+	}
     describe "add user" do
         it "should not have a blank username" do
             UsersModel.add("", "secret").should == UsersModel::ERR_BAD_USERNAME
