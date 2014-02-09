@@ -148,8 +148,10 @@ class ClientController < ApplicationController
             file = Tempfile.new(["rspec", ".txt"], "#{Rails.root}/tmp")
             result = system("rspec #{Rails.root}/spec/requests/clients_spec.rb "+
                 "--format documentation --out "+file.path)
+            puts "AFTER COMMAND: #{result}"
             begin
                 contents = file.readlines()
+                puts "HERE"
                 i = contents.length-1
                 line = ""
                 while i > 0
@@ -159,6 +161,7 @@ class ClientController < ApplicationController
                     end
                     i -= 1
                 end
+                puts "AFTER WHILE"
                 line = line.split(" ")
                 total = line[line.index("examples,")-1].to_i
                 fails = line[line.index("failures\n")-1].to_i
