@@ -151,9 +151,9 @@ class ClientController < ApplicationController
             puts "AFTER COMMAND: #{result}"
             begin
                 contents = file.readlines()
-                puts "HERE"
                 i = contents.length-1
                 line = ""
+                puts "i is #{i}, and contents has length #{contents.length}"
                 while i > 0
                     if contents[i].include?("failures")
                         line = contents[i]
