@@ -1,27 +1,19 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Heroku server: http://shielded-atoll-5912.herokuapp.com/users
 
-Things you may want to cover:
+Running the functional tests and unit tests:
+make func_tests TEST_SERVER=shielded-atoll-5912.herokuapp.com
 
-* Ruby version
+Git repos:
+heroku	git@heroku.com:shielded-atoll-5912.git (fetch)
+heroku	git@heroku.com:shielded-atoll-5912.git (push)
+origin	https://github.com/kevinzang/warmup.git (fetch)
+origin	https://github.com/kevinzang/warmup.git (push)
 
-* System dependencies
+Testing with curl:
+curl -v -X POST  -H "Content-type: application/json" -d '{"user": "test3", "password": "pass1"}' -i http://localhost:5000/users/login
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
 
 
 Please feel free to use a different markup language if you do not plan to run

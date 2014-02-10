@@ -148,12 +148,10 @@ class ClientController < ApplicationController
             file = Tempfile.new(["rspec", ".txt"], "#{Rails.root}/tmp")
             result = system("rspec #{Rails.root}/spec/requests/clients_spec.rb "+
                 "--format documentation --out "+file.path)
-            puts "AFTER COMMAND: #{result}"
             begin
                 contents = file.readlines()
                 i = contents.length-1
                 line = ""
-                puts "i is #{i}, and contents has length #{contents.length}"
                 while i > 0
                     if contents[i].include?("failures")
                         line = contents[i]

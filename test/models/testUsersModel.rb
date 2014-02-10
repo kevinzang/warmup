@@ -89,4 +89,3 @@ class TestUsersModel < Test::Unit::TestCase
 			"user 1 logged in")
 	end
 end
-puts "hello"
