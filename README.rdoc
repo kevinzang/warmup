@@ -1,6 +1,6 @@
 == README
 
-Heroku server: http://shielded-atoll-5912.herokuapp.com/users
+Heroku server: http://shielded-atoll-5912.herokuapp.com
 
 Running the functional tests and unit tests:
 make func_tests TEST_SERVER=shielded-atoll-5912.herokuapp.com
